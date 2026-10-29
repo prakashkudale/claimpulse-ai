@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ClaimPulse AI | Multimodal Live Claim Intake Agent</title>
+    <meta name="description" content="ClaimPulse AI - Real-time multimodal voice and vision insurance claim intake agent powered by Gemini Live." />
+    <meta name="author" content="Prakash Kudale" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Patrick+Hand&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=three-column-4" />
+  </head>
+  <body>
+    <div class="desk">
+      <header class="desk-bar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1>ClaimPulse AI</h1>
+            <p id="modelLabel" class="brand-sub">Connecting to Gemini</p>
+          </div>
+        </div>
+        <button id="openPacket" class="ghost-button" type="button">Adjuster packet</button>
+      </header>
+
+      <main class="desk-layout">
+        <aside class="side media-column" aria-label="Live call and camera">
+          <section class="card call-card">
+            <div class="card-head">
+              <span class="card-kicker">Live call</span>
+              <span id="callStatus" class="pill">Connecting</span>
+            </div>
+
+            <div id="avatarStage" class="avatar-stage" data-state="idle" hidden>
+              <video id="avatarVideo" playsinline aria-label="Live AI claim assistant" hidden></video>
+              <span class="avatar-disclosure">AI avatar</span>
+              <div class="avatar-identity">
+                <span id="avatarName">Claim assistant</span>
+                <span id="avatarStatus" role="status">Start a conversation when you’re ready</span>
+              </div>
+              <button id="resumeAvatar" class="avatar-resume" type="button" hidden>Play voice and video</button>
+            </div>
+
+            <div id="cameraStage" class="camera-stage" hidden>
+              <video id="cameraPreview" autoplay muted playsinline></video>
+              <span class="camera-tag"><span class="rec-dot" aria-hidden="true"></span> Agent is watching</span>
+            </div>
+
+            <div class="controls">
+              <button id="micButton" class="round-button" type="button" aria-label="Start live voice">
+                <span class="icon-mic" aria-hidden="true"></span>
+                <span class="round-label">Talk</span>
+              </button>
+              <button id="cameraButton" class="round-button" type="button" aria-label="Show the damage on camera">
+                <span class="icon-camera" aria-hidden="true"></span>
+                <span class="round-label">Show camera</span>
+              </button>
+              <button id="newIntakeButton" class="round-button subtle" type="button" aria-label="Start a new intake">
+                <span class="icon-new" aria-hidden="true"></span>
+                <span class="round-label">New intake</span>
+              </button>
+            </div>
+          </section>
+          <section class="card team-card">
+            <div class="card-head">
+              <span class="card-kicker">Claim team</span>
+              <span class="card-hint">Working in the background while the call continues</span>
+            </div>
+            <ul id="teamFeed" class="team-feed" tabindex="0" aria-label="Claim team activity"></ul>
+          </section>
+        </aside>
+
+        <section class="notebook-wrap" aria-label="Field notebook" tabindex="0">
+          <div class="notebook">
+            <div class="holes" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="page-head">
+              <span id="pageDate">Claim intake notes</span>
+              <span id="pageAgent">Gemini 3.8 Live, field notes</span>
+            </div>
+            <div id="notes" class="notes"></div>
+            <div id="pinboard" class="pinboard"></div>
+            <div id="stamp" class="stamp" hidden></div>
+            <div id="pen" class="pen" hidden><span class="pen-nib" aria-hidden="true"></span> writing</div>
+          </div>
+        </section>
+        <aside class="side conversation-column" aria-label="Transcript and claim checklist">
+          <section class="card transcript-card">
+            <div class="card-head">
+              <span class="card-kicker">Transcript</span>
+            </div>
+            <div id="transcript" class="transcript" aria-live="polite" tabindex="0" role="region" aria-label="Conversation transcript"></div>
+
+            <form id="textForm" class="text-entry">
+              <input
+                id="textInput"
+                type="text"
+                autocomplete="off"
+                placeholder="Or type what the claimant says..."
+                aria-label="Type a claimant response"
+              />
+              <button type="submit">Send</button>
+            </form>
+          </section>
+
+          <section class="card needed-card">
+            <div class="card-head">
+              <span class="card-kicker">Still needed</span>
+              <span id="readiness" class="pill neutral">0% collected</span>
+            </div>
+            <ul id="neededList" class="needed-list" tabindex="0" aria-label="Information still needed"></ul>
+          </section>
+
+        </aside>
+      </main>
+    </div>
+
+    <dialog id="packetDialog" class="packet-dialog">
+      <div class="dialog-header">
+        <h2>Adjuster handoff packet</h2>
+        <a id="downloadPacket" class="text-button" href="#" download>Download packet + evidence</a><button id="closePacket" type="button" aria-label="Close packet">Close</button>
+      </div>
+      <pre id="packetMarkdown"></pre><p>Local demo: nothing is sent to an adjuster. Intakes expire after 30 minutes without activity. Download to keep a copy.</p>
+    </dialog>
+
+    <canvas id="frameCanvas" hidden></canvas>
+    <script src="./avatar.js?v=4"></script>
+    <script src="./app.js?v=voice-turns-2"></script>
+  </body>
+</html>
